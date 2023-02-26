@@ -1,0 +1,16 @@
+{
+  "name": "sliderverify",
+  "version": "1.0.0",
+  "description": "web滑块验证",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "滑块验证",
+    "web",
+    "纯JS"
+  ],
+  "author": "XCC",
+  "license": "ISC"
+}

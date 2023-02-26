@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>滑块验证</title>
+</head>
+<body style="display: flex;justify-content:center;align-items: center; background-color: #333333;height: 500px;">
+    <div id="slideCanvas"></div>
+</body>
+<script type="module">
+    import SliderVerify from "../SliderVerify/index.js"
+    var slider = new SliderVerify({
+        el: "#slideCanvas",
+        fail: setImg
+    })
+    function setImg(end){
+        console.log("回调", end)
+        slider.setImgUrl("./img/01.jpg")
+    }
+    console.log(slider)
+</script>
+</html>
