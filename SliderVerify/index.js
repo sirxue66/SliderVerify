@@ -69,11 +69,8 @@ class SliderVerify{
         }
         this.Container.innerHTML = ""
         if(!this.visible) return //是否显示
-        this.Container.style.position = "relative"
-        this.Container.style.borderRadius = "3px"
-        this.Container.style.background = "#ffffff"
-        this.Container.style.padding = "8px"
-        this.Container.style.overflow = "hidden"
+        this.Container.style.cssText = 
+        `position:relative;border-radius:3px;background:#ffffff;padding:8px;overflow:hidden;width:${this.W}px;border:1px solid #e6e8eb;`
         // Canvas部分
         const canvasContainer = document.createElement("div")
         canvasContainer.style.position = "relative"

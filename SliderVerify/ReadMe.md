@@ -8,9 +8,9 @@
 
 ### 项目地址
 
-[预览地址](http://localhost/)
+[预览地址](https://sirxue66.github.io/SliderVerify/)
 
-[源码地址](http://localhost/)
+[源码地址](https://github.com/sirxue66/SliderVerify/tree/main/SliderVerify)
 
 
 ### 使用样例
