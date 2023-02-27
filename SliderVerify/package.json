@@ -12,5 +12,10 @@
     "纯JS"
   ],
   "author": "XCC",
-  "license": "ISC"
+  "license": "ISC",
+  "homepage": "https://sirxue66.github.io/SliderVerify/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sirxue66/SliderVerify/tree/main/SliderVerify"
+  }
 }
