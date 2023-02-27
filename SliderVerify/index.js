@@ -157,9 +157,15 @@ class SliderVerify{
      * 添加鼠标事件
      */
     addEvent(){
-        this.sliderBlock.addEventListener("mousedown", this.mouseStart.bind(this), false)
-        this.Container.addEventListener("mousemove", this.mouseMove.bind(this), false)
-        this.Container.addEventListener("mouseup", this.mouseEnd.bind(this), false)
+        if(this.isMobile()){
+            this.sliderBlock.addEventListener("touchstart", this.mouseStart.bind(this), false)
+            this.Container.addEventListener("touchmove", this.mouseMove.bind(this), false)
+            this.Container.addEventListener("touchend", this.mouseEnd.bind(this), false)
+        } else {
+            this.sliderBlock.addEventListener("mousedown", this.mouseStart.bind(this), false)
+            this.Container.addEventListener("mousemove", this.mouseMove.bind(this), false)
+            this.Container.addEventListener("mouseup", this.mouseEnd.bind(this), false)
+        }
     }
     mouseStart(e){
         if(!this.#eventFlag) return
@@ -182,6 +188,7 @@ class SliderVerify{
     }
     mouseEnd(e){
         if(!this.#eventFlag) return
+        if(!this.#startFlag) return //防止鼠标离开事件二次触发刷新
         this.#startFlag = false
         this.verify()
         console.log(this.#verifyResult)
@@ -305,7 +312,10 @@ class SliderVerify{
     getRandomNumber(min,max){
         return Math.round(Math.random()*(max-min)+min)
     }
-
+    isMobile() {
+        let flag = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(window.navigator.userAgent);
+        return flag;
+    }
     onSuccess(){
         console.log("验证成功！")
     }
