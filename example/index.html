@@ -9,21 +9,31 @@
 <body style="display: flex;justify-content:center;align-items: center; background-color: #333333;height: 500px;">
     <div id="slideCanvas"></div>
 </body>
-<!-- <script src="../build/build/SliderVerify.min.js"></script>
+<!-- <script src="../build/SliderVerify.min.js"></script>
 <script>
     var slider = new SliderVerify.default({
-        el: "#slideCanvas",
-        fail: setImg
+        el: "#slideCanvas"
     })
 </script> -->
 <script type="module">
-    import SliderVerify from "./module/index.js"
+    import SliderVerify from "../SliderVerify/index.js"
     var slider = new SliderVerify({
         el: "#slideCanvas",
-        fail: setImg
+        width: 400,
+        height: 200,
+        L: 50,
+        R: 10,
+        blockH: 40,
+        text: "请验证",
+        offset: 2,
+        success: success,
+        fail: fail
     })
-    function setImg(end){
-        console.log("回调", end)
+    function success(result){
+        console.log("验证通过---------》", result)
+    }
+    function fail(result){
+        console.log("验证未通过---------》", result)
         slider.setImgUrl("./img/01.jpg")
     }
     console.log(slider)

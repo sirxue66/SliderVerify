@@ -30,16 +30,17 @@ el: "#sliderVerifyDom",
 
 | option        | 类型       |  默认值           | 是否必填     | 解释
 | --------      | -----:     | :----:           | :----:   |
-| el            | string     |   无             | 是    |  视图容器
-| width         | number     |   320            | 否    | 画布宽度
-| height        | number     |  160             | 否    | 画布高度
-| L             | number     |   42             | 否    | 方形滑块边长
-| R             | number     |   9              | 否    | 突出圆形半径
-| text          | string     |  向右滑动进行验证 | 否     | 滑动条的文字说明
-| imgUrl        | string     |   无             | 否    | 画布背景图片（网络地址或者项目本地地址）
-| offset        |  number    |   4              | 否    | 校验精准度，滑块左右偏移量
-| success       |  function  |                  | 是    | 校验成功的回调
-| fail          | function   |                  | 否    | 校验失败的回调
+| el            | string     | 无             | 是    |  视图容器
+| width         | number     | 320            | 否    | 画布宽度
+| height        | number     | 160            | 否    | 画布高度
+| L             | number     | 42             | 否    | 方形抠图边长
+| R             | number     | 9              | 否    | 突出圆形半径
+| blockH        | number     | 35             | 否    | 滑块高度
+| text          | string     | 向右滑动进行验证 | 否    | 滑动条的文字说明
+| imgUrl        | string     | 无              | 否    | 画布背景图片（网络地址或者项目本地地址）
+| offset        |  number    | 4               | 否    | 校验精准度，滑块左右偏移量
+| success       |  function  |                 | 是    | 校验成功的回调
+| fail          | function   |                 | 否    | 校验失败的回调
 
 ##### success fail 回调函数参数
 ```javascript

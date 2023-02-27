@@ -2,7 +2,7 @@ const path = require("path")
 
 module.exports = {
     mode: "production",
-    entry: `./index.js`,
+    entry: `./SliderVerify/index.js`,
     output: {
       path: path.resolve(__dirname, "./build"),
       filename: "SliderVerify.min.js", // 指定生成的库文件名称

@@ -1,5 +1,8 @@
 import assets from "./assets.js"
 class SliderVerify{
+    c_blue = "#1e90ff"
+    c_green = "#52ccba"
+    c_red = "#f57a7a"
     // 校验需要的私有变量
     #startX = 0 //鼠标按下的起始X坐标
     #startFlag = false  //是否滑动的标志
@@ -14,12 +17,13 @@ class SliderVerify{
         type: 0  //0 成功  1 失败  2 机器操作
     }
     constructor(option){
-        const {width=320, height=160,L=42,R=9,offset=4,visible=true,text="向右滑动进行验证"} = option
+        const {width=320, height=160,L=42,R=9,offset=4,blockH=35,visible=true,text="向右滑动进行验证"} = option
         this.containerDom = option.el || null
         this.W = width //canvas宽
         this.H = height  //canvas高
-        this.L = L // 滑块边长
-        this.R = R   //滑块半径
+        this.L = L // 抠图边长
+        this.R = R   //抠图半径
+        this.blockH = blockH //滑块高度
         this.visible = visible //显隐
         this.text = text //滑动文本
         this.imgUrl = option.imgUrl || null //图片背景图
@@ -38,6 +42,7 @@ class SliderVerify{
         this.sliderBlock = null
         this.iconDom = null
         this.textDom = null
+        this.activeDom = null
         // 抠图位置坐标
         this.margin = 2  //抠图间隙
         this.X = this.getRandomNumber((L+R*2)*2, width-(L+R*2)-this.margin) //随机X坐标
@@ -87,20 +92,22 @@ class SliderVerify{
 
         // 拖动部分
         this.sliderDom = document.createElement("div")
-        this.sliderDom.style.cssText = "height:30px;position:relative;border-radius:3px;background:rgb(221 214 214);text-align:center;"
+        this.sliderDom.style.cssText = `height:${this.blockH}px;position:relative;border-radius:3px;background:#f7f9fa;text-align:center;border:1px solid #e4e7eb;`
         this.textDom = document.createElement("span")
         this.textDom.innerText = this.text
-        this.textDom.style.cssText = "position:relative;margin-right:20px;line-height:30px;letter-spacing:2px;color:#999797;font-size:14px;z-index:10;margin-left: 20px;"
+        this.textDom.style.cssText = `position:relative;margin-right:20px;line-height:${this.blockH}px;letter-spacing:2px;color:#999797;font-size:14px;margin-left: 20px;`
         this.sliderBlock = document.createElement("div")
         this.sliderBlock.style.cssText = 
-        `height:30px;width:${this.L+this.R*2}px;position:absolute;left:0;top:0;background:#1e90ff;border-radius:3px;cursor:pointer;text-align:center;`
-
+        `height:${this.blockH}px;width:${this.L+this.R*2}px;position:absolute;left:0;top:-1px;background:${this.c_blue};border-radius:3px;cursor:pointer;text-align:center;border:1px solid ${this.c_blue};`
+        this.activeDom = document.createElement("div")
+        this.activeDom.style.cssText = `height:${this.blockH}px;width:0px;position:absolute;left:0;top:-1px;background:#d1e9fe;border-radius:3px;border:1px solid ${this.c_blue};`
 
         canvasContainer.appendChild(this.canvasDom)
         canvasContainer.appendChild(this.blockDom)
         this.Container.appendChild(canvasContainer)
         this.sliderBlock.appendChild(this.makeSliderIcon())
         this.sliderDom.appendChild(this.textDom)
+        this.sliderDom.appendChild(this.activeDom)
         this.sliderDom.appendChild(this.sliderBlock)
         this.Container.appendChild(this.sliderDom)
 
@@ -111,7 +118,7 @@ class SliderVerify{
         // this.iconDom.title = "SliderIcon"
         this.iconDom.alt = "SliderIcon"
         this.iconDom.src = this.assets.defaultIcon
-        this.iconDom.style.height = "30px"
+        this.iconDom.style.height = `${this.blockH}px`
         this.iconDom.addEventListener("mousedown",(e) => e.preventDefault())
         return this.iconDom
     }
@@ -158,6 +165,7 @@ class SliderVerify{
         if(!this.#eventFlag) return
         this.#startX = e.clientX
         this.#startFlag = true
+        this.Container.addEventListener("mouseleave", this.mouseEnd.bind(this), {once: true})
     }
     mouseMove(e){
         if(!this.#eventFlag) return
@@ -165,6 +173,7 @@ class SliderVerify{
         if(e.clientX <= this.#startX) return //左滑边界
         this.#distance = e.clientX - this.#startX
         if(this.#distance > this.W - (this.L+this.R*2)) return //右滑边界
+        this.activeDom.style.width = this.#distance + "px"
         this.sliderBlock.style.transform = `translateX(${this.#distance}px)`
         this.blockDom.style.transform = `translateX(${this.#distance}px)`
         // 记录移动轨迹
@@ -195,19 +204,25 @@ class SliderVerify{
 
     successView(){
         this.iconDom.src = this.assets.successIcon
-        this.sliderDom.style.background = "green"
         this.sliderDom.style.textAlign = "left"
-        this.sliderBlock.style.background = "green"
+        this.sliderBlock.style.background = this.c_green
+        this.sliderBlock.style.border = `1px solid ${this.c_green}`
+        this.activeDom.style.background = "#d2f4ef"
+        this.activeDom.style.border = `1px solid ${this.c_green}`
         this.textDom.innerText = "验证通过"
-        this.textDom.style.color = "#ffffff"
+        this.textDom.style.color = this.c_green
+        this.textDom.style.zIndex = 10
     }
     failView(){
         this.iconDom.src = this.assets.failIcon
-        this.sliderDom.style.background = "red"
         this.sliderDom.style.textAlign = "left"
-        this.sliderBlock.style.background = "red"
+        this.sliderBlock.style.background = this.c_red
+        this.sliderBlock.style.border = `1px solid ${this.c_red}`
+        this.activeDom.style.background = "#fce1e1"
+        this.activeDom.style.border = `1px solid ${this.c_red}`
         this.textDom.innerText = "验证失败"
-        this.textDom.style.color = "#ffffff"
+        this.textDom.style.color = this.c_red
+        this.textDom.style.zIndex = 10
     }
 
     /**
@@ -304,11 +319,15 @@ class SliderVerify{
         //重置偏移量
         this.blockDom.style.transform = "translateX(0px)"
         this.sliderBlock.style.transform = "translateX(0px)"
-        this.sliderDom.style.background = "rgb(221 214 214)"
         this.sliderDom.style.textAlign = "center"
-        this.sliderBlock.style.background = "#1e90ff"
+        this.sliderBlock.style.background = this.c_blue
+        this.sliderBlock.style.border = `1px solid ${this.c_blue}`
+        this.activeDom.style.width = 0
+        this.activeDom.style.background = "#d1e9fe"
+        this.activeDom.style.border = `1px solid ${this.c_blue}`
         this.textDom.innerText = this.text
         this.textDom.style.color = "#999797"
+        this.textDom.style.zIndex = 0
         this.iconDom.src = this.assets.defaultIcon
         //将滑块宽度还原
         this.blockDom.width = this.W
