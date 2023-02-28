@@ -125,7 +125,7 @@ class SliderVerify{
         } 
         else {
             const random = this.getRandomNumber(1, this.assets.defaultImage.length)
-            return this.assets.defaultImage[random]
+            return this.assets.defaultImage[random - 1]
         }
     }
     /**
